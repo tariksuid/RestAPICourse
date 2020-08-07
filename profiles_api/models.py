@@ -55,7 +55,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.name
 
     def get_short_name(self):
-        """return the full name of the user"""
+        """return the first name of the user //in this case we only specify the first name"""
         return self.name
 
     def __str__(self):

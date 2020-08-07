@@ -2,7 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
+
 from profiles_api import serializers
+from profiles_api import models
+from profiles_api import permissions
 
 class HelloApiView(APIView):
     """test api view"""
@@ -88,3 +93,18 @@ class HelloViewSet(viewsets.ViewSet):
       def destroy(self, request, pk=None):
           """handle removing an obj"""
           return Response({'http_method': 'DELETE'})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """handle creating and updating profiles"""
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+
+    #add a comma so this will be created as a tuple instead of a single obj ...
+    #TokenAuthentication is the type of auth we will be use
+    #how the user will be auth
+    authentication_classes  = (TokenAuthentication,)
+
+    #permissions classes tell how the user will get permissions ..
+    #looks like the name is so important :) ..
+    #spent 1 to figure out that 'permission_classes' no 'permissions_classes' :)
+    permission_classes = (permissions.UpdateOwnProfile,)
