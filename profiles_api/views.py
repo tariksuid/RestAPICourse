@@ -108,3 +108,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #looks like the name is so important :) ..
     #spent 1 to figure out that 'permission_classes' no 'permissions_classes' :)
     permission_classes = (permissions.UpdateOwnProfile,)
+
+    #add the search ability ...
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'email')
